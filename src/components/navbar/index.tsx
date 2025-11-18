@@ -6,14 +6,10 @@ import { usePathname, useSearchParams } from "next/navigation";
 import React from "react";
 import { Id } from "../../../convex/_generated/dataModel";
 import { api } from "../../../convex/_generated/api";
-import {
-	CircleQuestionMark,
-	HashIcon,
-	LayoutTemplate,
-	User,
-} from "lucide-react";
+import { CircleQuestionMark, Hash, LayoutTemplate, User } from "lucide-react";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useAppSelector } from "@/redux/store";
 
 type TabProps = {
 	label: string;
@@ -24,14 +20,24 @@ type TabProps = {
 const Navbar = () => {
 	const params = useSearchParams();
 	const projectId = params.get("project");
-
 	const pathname = usePathname();
+
+	/*
+		// make an api call to get user through -> ReactContext API or Redux or Redux Toolkit for Global State Management
+		using RTK -> Redux Toolkit
+		1. Write fetch() code
+		2. Handle loading state (show spinner)
+		3. Handle errors (show error message)
+		4. Handle caching (don't fetch same data twice)
+		5. Handle updating the UI when data changes
+	*/
+	const me = useAppSelector((state) => state.profile);
 
 	const tabs: TabProps[] = [
 		{
 			label: "Canvas",
 			href: `/dashboard/canvas?project=${projectId}`, // add in href later after dashboard -> ${me.name}/
-			icon: <HashIcon className="h-4 w-4" />,
+			icon: <Hash className="h-4 w-4" />,
 		},
 		{
 			label: "Style Guide",
@@ -52,7 +58,7 @@ const Navbar = () => {
 		<div className="grid grid-cols-2 lg:grid-cols-3 p-6 fixed top-0 left-0 right-0 z-50">
 			<div className="flex items-center gap-4">
 				<Link
-					href={`/dashboard/`} // later add this back to url -> ${me.name}
+					href={`/dashboard/${me.name}`} // later add this back to url -> ${me.name}
 					className="w-8 h-8 rounded-full border-3 border-white bg-black flex items-center justify-center"
 				>
 					<div className="w-4 h-4 rounded-full bg-white"></div>
@@ -106,7 +112,8 @@ const Navbar = () => {
 				</Button>
 
 				<Avatar className="size-12 ml-2">
-					<AvatarImage /> {/* add image src later -> src={image}  */}
+					{/* add image src later -> src={image}  */}
+					<AvatarImage src={me.image || ""} />
 					<AvatarFallback>
 						<User className="size-5 text-black" />
 					</AvatarFallback>

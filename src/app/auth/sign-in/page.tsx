@@ -1,5 +1,6 @@
 "use client";
 
+import GitHub from "@/components/oauth/github";
 import Google from "@/components/oauth/google";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,34 +33,9 @@ export default function LoginPage() {
 						</p>
 					</div>
 
-					<div className="mt-6 grid grid-cols-2 gap-3"> 
+					<div className="mt-6 grid grid-cols-2 gap-3">
 						<Google />
-						<Button type="button" variant="outline">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="1em"
-								height="1em"
-								viewBox="0 0 256 256"
-							>
-								<path
-									fill="#f1511b"
-									d="M121.666 121.666H0V0h121.666z"
-								></path>
-								<path
-									fill="#80cc28"
-									d="M256 121.666H134.335V0H256z"
-								></path>
-								<path
-									fill="#00adef"
-									d="M121.663 256.002H0V134.336h121.663z"
-								></path>
-								<path
-									fill="#fbbc09"
-									d="M256 256.002H134.335V134.336H256z"
-								></path>
-							</svg>
-							<span>Microsoft</span>
-						</Button>
+						<GitHub />
 					</div>
 
 					<hr className="my-4 border-dashed" />
