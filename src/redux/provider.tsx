@@ -1,7 +1,7 @@
 "use client";
 
-import { ReactNode, useMemo } from "react"; // add this when removing old comment -> useRef
-import { makeStore, RootState } from "./store";
+import { ReactNode, useRef } from "react";
+import { makeStore, RootState, AppStore } from "./store";
 import { Provider } from "react-redux";
 
 const ReduxProvider = ({
@@ -11,10 +11,12 @@ const ReduxProvider = ({
 	children: ReactNode;
 	preloadedState: Partial<RootState>;
 }) => {
-	// const storeRef = useRef(makeStore(preloadedState)); // old code
-	const store = useMemo(() => makeStore(preloadedState), [preloadedState]); // Coderabbit suggestion implementing here
+	const storeRef = useRef<AppStore | null>(null);
+	if (!storeRef.current) {
+		storeRef.current = makeStore(preloadedState);
+	}
 
-	return <Provider store={store}>{children}</Provider>;
+	return <Provider store={storeRef.current}>{children}</Provider>;
 };
 
 export default ReduxProvider;
