@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 
+import { useRef } from "react";
+
 const generateGradientThumbnail = () => {
 	const gradients = [
 		"linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -26,16 +28,17 @@ const generateGradientThumbnail = () => {
 
 	const randomGradient =
 		gradients[Math.floor(Math.random() * gradients.length)];
+
+	const matches = randomGradient.match(/#[a-fA-F0-9]{6}/g) ?? [];
+
+	const [startColor = "#667eea", endColor = "#764ba2"] = matches;
+
 	const svgContent = `
     <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:${
-				randomGradient.match(/#[a-fA-F0-9]{6}/g)?.[0] || "#667eea"
-			}" />
-          <stop offset="100%" style="stop-color:${
-				randomGradient.match(/#[a-fA-F0-9]{6}/g)?.[1] || "#764ba2"
-			}" />
+          <stop offset="0%" style="stop-color:${startColor}" />
+          <stop offset="100%" style="stop-color:${endColor}" />
         </linearGradient>
       </defs>
       <rect width="100%" height="100%" fill="url(#grad)" />
@@ -53,11 +56,17 @@ export const useProjectCreation = () => {
 	const projectsState = useAppSelector((state) => state.projects);
 	const shapesState = useAppSelector((state) => state.shapes);
 
+	const inFlightRef = useRef(false);
+
 	const createProject = async (name?: string) => {
 		if (!user?.id) {
 			toast.error("Please sign in to create projects");
 			return;
 		}
+
+		// Prevent double-submit if called again before the first run completes
+		if (inFlightRef.current) return;
+		inFlightRef.current = true;
 
 		dispatch(createProjectStart());
 
@@ -89,10 +98,12 @@ export const useProjectCreation = () => {
 			);
 
 			dispatch(createProjectSuccess());
-			toast.success("Project created successfully!"); // TODO: remove it if not needed
+			toast.success("Project created successfully!"); // remove this toast if not needed
 		} catch (error) {
 			dispatch(createProjectFailure("Failed to create project"));
 			toast.error("Failed to create project");
+		} finally {
+			inFlightRef.current = false;
 		}
 	};
 

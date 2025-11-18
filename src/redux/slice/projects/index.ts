@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { action } from "../../../../convex/_generated/server";
 
 interface ProjectSummary {
 	_id: string;
