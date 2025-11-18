@@ -14,11 +14,11 @@ const Layout = async ({ children }: Props) => {
 	// if (!entitlement._valueJSON) {
 	// 	// TODO: Remove billing hardcoded path
 	// 	// redirect(`/billing/${combinedSlug(profileName!)}`);
-	// 	redirect(`/dashboard/${combinedSlug(profileName!)}`);
+	// 	// redirect(`/dashboard/${combinedSlug(profileName!)}`);
 	// }
 
 	return (
-		<div>
+		<div className="grid grid-cols-1">
 			<Navbar />
 			{children}
 		</div>

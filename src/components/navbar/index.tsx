@@ -37,19 +37,22 @@ const Navbar = () => {
 	const tabs: TabProps[] = [
 		{
 			label: "Canvas",
-			href: `/dashboard/canvas?project=${projectId}`, // add in href later after dashboard -> ${me.name}/
+			href: `/dashboard/${me.name}/canvas?project=${projectId}`, // add in href later after dashboard -> ${me.name}/
 			icon: <Hash className="h-4 w-4" />,
 		},
 		{
 			label: "Style Guide",
-			href: `/dashboard/style-guide?project=${projectId}`, // add in href later after dashboard -> ${me.name}/
+			href: `/dashboard/${me.name}/style-guide?project=${projectId}`, // add in href later after dashboard -> ${me.name}/
 			icon: <LayoutTemplate className="h-4 w-4" />,
 		},
 	];
 
+	const shouldFetch = !!projectId && projectId !== "null";
+
+	// Always call useQuery, use "skip" to prevent API call
 	const project = useQuery(
 		api.projects.getProject,
-		projectId ? { projectId: projectId as Id<"projects"> } : "skip"
+		shouldFetch ? { projectId: projectId as Id<"projects"> } : "skip"
 	);
 
 	const hasCanvas = pathname.includes("canvas");
