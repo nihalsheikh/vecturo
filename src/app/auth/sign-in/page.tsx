@@ -1,7 +1,7 @@
 "use client";
 
-import GitHub from "@/components/oauth/github";
-import Google from "@/components/oauth/google";
+import GitHub from "@/components/buttons/oauth/github";
+import Google from "@/components/buttons/oauth/google";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
