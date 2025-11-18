@@ -1,7 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { Button } from "../ui/button";
 
 const Google = () => {
 	const { signIn } = useAuthActions();
