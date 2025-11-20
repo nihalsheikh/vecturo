@@ -1,11 +1,12 @@
 import { ThemeContent } from "@/components/style/theme";
 import { TabsContent } from "@/components/ui/tabs";
 import { MoodBoardImagesQuery, StyleGuideQuery } from "@/convex/query.config";
-import { MoodBoardImages } from "@/hooks/use-styles";
+import { MoodBoardImage } from "@/hooks/use-styles";
 import { StyleGuide } from "@/redux/api/style-guide";
 import { Palette } from "lucide-react";
-import { mockStyleGuide } from "./mockData";
 import StyleGuideTypography from "@/components/style/typography";
+import MoodBoard from "@/components/style/mood-board";
+import { mockStyleGuide } from "./mockData";
 
 type Props = {
 	searchParams: Promise<{ project: string }>;
@@ -25,7 +26,7 @@ const Page = async ({ searchParams }: Props) => {
 	const existingMoodBoardImages = await MoodBoardImagesQuery(projectId);
 
 	const guideImages = existingMoodBoardImages.images
-		?._valueJSON as unknown as MoodBoardImages[];
+		?._valueJSON as unknown as MoodBoardImage[];
 
 	return (
 		<div>
@@ -53,8 +54,13 @@ const Page = async ({ searchParams }: Props) => {
 				)}
 			</TabsContent>
 
-			<TabsContent value="typography" className="">
-				<StyleGuideTypography typographyGuide={typographyGuide} />
+			<TabsContent value="typography">
+				<StyleGuideTypography typographyGuide={typographyGuide} />{" "}
+				{/* typographyGuide */}
+			</TabsContent>
+
+			<TabsContent value="moodboard">
+				<MoodBoard guideImages={guideImages} />
 			</TabsContent>
 		</div>
 	);

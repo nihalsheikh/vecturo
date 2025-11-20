@@ -1,7 +1,13 @@
 "use client";
 
 import { TypographySection } from "@/redux/api/style-guide";
-import { Type } from "lucide-react";
+import { Info, Type } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Props = {
 	typographyGuide: TypographySection[];
@@ -36,7 +42,7 @@ const StyleGuideTypography = ({ typographyGuide }: Props) => {
 									(style: any, styleIndex: number) => (
 										<div
 											key={styleIndex}
-											className="p-6 rounded-2xl backdrop-blur-xl bg-white/2 border border-white/8 saturate-150"
+											className="p-6 rounded-2xl backdrop-blur-xl bg-black/5 border border-white/6 saturate-150"
 										>
 											<div className="space-y-4">
 												<h4 className="text-lg font-medium text-foreground mb-1">
@@ -44,14 +50,65 @@ const StyleGuideTypography = ({ typographyGuide }: Props) => {
 												</h4>
 
 												{style.description && (
-													<p className="text-xs text-muted-foreground">
-														{style.description}
-													</p>
+													<div className="flex text-xs text-muted-foreground">
+														<p className="flex justify-between items-center">
+															{style.description}
+															&nbsp;
+															<Tooltip>
+																<TooltipTrigger
+																	asChild
+																>
+																	<Info className="w-3.5 h-3.5 text-muted-foreground hover:text-white" />
+																</TooltipTrigger>
+																<TooltipContent>
+																	<div className="font-mono font-semibold px-2 py-2 mx-auto flex-wrap">
+																		<p className="mb-1">
+																			Font:{" "}
+																			{
+																				style.fontFamily
+																			}{" "}
+																		</p>
+
+																		<p className="mb-1">
+																			Size:{" "}
+																			{
+																				style.fontSize
+																			}{" "}
+																		</p>
+
+																		<p className="mb-1">
+																			Weight:{" "}
+																			{
+																				style.fontWeight
+																			}{" "}
+																		</p>
+
+																		<p className="mb-1">
+																			Line
+																			Height:{" "}
+																			{
+																				style.lineHeight
+																			}{" "}
+																		</p>
+																		{style.letterSpacing && (
+																			<div>
+																				Letter
+																				Spacing:{" "}
+																				{
+																					style.letterSpacing
+																				}
+																			</div>
+																		)}
+																	</div>
+																</TooltipContent>
+															</Tooltip>
+														</p>
+													</div>
 												)}
 											</div>
 
 											<div
-												className="text-foreground mb-2"
+												className="text-foreground mt-4"
 												style={{
 													fontFamily:
 														style.fontFamily,
@@ -67,32 +124,6 @@ const StyleGuideTypography = ({ typographyGuide }: Props) => {
 											>
 												The quick brown fox jumps over
 												the lazy dog
-											</div>
-
-											<div className="text-xs text-muted-foreground mt-2 space-y-1">
-												<div>
-													Font: {style.fontFamily}
-												</div>
-
-												<div>
-													Size: {style.fontSize}
-												</div>
-
-												<div>
-													Weight: {style.fontWeight}
-												</div>
-
-												<div>
-													Line Height:{" "}
-													{style.lineHeight}
-												</div>
-
-												{style.letterSpacing && (
-													<div>
-														Letter Spacing:{" "}
-														{style.letterSpacing}
-													</div>
-												)}
 											</div>
 										</div>
 									)
