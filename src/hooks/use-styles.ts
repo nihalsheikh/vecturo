@@ -146,6 +146,19 @@ export const useMoodBoard = (guideImages: MoodBoardImage[]) => {
 		setValue("images", updatedImages);
 		toast.success("Image removed");
 	};
+
+	const handleDrag = (e: React.DragEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
+
+		if (e.type === "dragenter" || e.type === "dragover") {
+			setDragActive(true);
+		} else if (e.type === "dragleave") {
+			setDragActive(false);
+		}
+	};
+
+	const handleDrop = () => {}
 };
 
 // return {
